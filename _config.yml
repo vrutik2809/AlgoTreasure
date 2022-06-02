@@ -2,7 +2,7 @@
 theme: jekyll-theme-minimal
 title: "AlgoTreasure"
 description: "A Treasure for various Data Structures and Algorithms"
-# google_analytics: UA-39997821-2
+google_analytics: UA-39997821-2
 repository: 'vrutik2809/AlgoTreasure'
 
 baseurl: '/AlgoTreasure'
