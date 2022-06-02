@@ -8,7 +8,8 @@ repository: 'AdamsLair/duality-docs'
 # Empty base URL for custom domain 'docs.duality2d.net' instead of 'adamslair.github.io/duality-docs'
 # baseurl: ''
 # Now back to the *.github.io/* URL
-baseurl: '/algo-docs'
+baseurl: '/AlgoTreasure'
+url: 'https://vrutik2809.github.io/AlgoTreasure/'
 
 # External links, to be displayed in the top
 links:
