@@ -3,7 +3,7 @@ theme: jekyll-theme-minimal
 title: "AlgoTreasure"
 description: "A Treasure for various Data Structures and Algorithms"
 # google_analytics: UA-39997821-2
-repository: 'AdamsLair/duality-docs'
+repository: 'vrutik2809/AlgoTreasure'
 
 # Empty base URL for custom domain 'docs.duality2d.net' instead of 'adamslair.github.io/duality-docs'
 # baseurl: ''
