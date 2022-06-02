@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en-US " }}">
+  <head>
+    {% include head.html %}
+    <meta http-equiv="refresh" content="0; url={{ page.redirectUrl }}">
+    <script type="text/javascript">
+        window.location.href = "{{ page.redirectUrl }}"
+    </script>
+  </head>
+  <body>
+    {% include header.html %}
+
+    <div class="page-body">
+      <div class="wrapper">
+          <div class="main-container">
+              {% include sidebar.html %}
+              {% include main.html %}
+          </div>
+        </div>
+    </div>
+
+    {% include footer.html %}
+    <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script> {% include analytics.html %}
+  </body>
+</html>

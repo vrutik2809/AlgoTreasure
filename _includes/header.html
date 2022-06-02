@@ -1,0 +1,16 @@
+<header>
+  <div class="wrapper">
+    <div class="site-title">
+      <a href="{{ site.baseurl }}/">{{ site.title | default: site.github.repository_name }}</a>
+      <span>{{ site.description | default: site.github.project_tagline }}</span>
+    </div>
+    <nav class="site-nav">
+      {% for link in site.links %}
+        {% if link.title %}
+        <a class="external-link" href="{{ link.url }}">{{ link.title }}</a>
+        {% endif %}
+      {% endfor %}
+      <a class="external-link" href="{{ site.github.repository_url }}">Contribute</a>
+    </nav>
+  </div>
+</header>

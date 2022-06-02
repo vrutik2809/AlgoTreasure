@@ -1,0 +1,132 @@
+<nav class="sidebar">
+  {% assign targetVersion = page.version %}
+  {% assign localBaseUrl = '/pages/' | append: targetVersion | append: '/' %}
+  {% assign parentUrl = localBaseUrl | append: page.parent | append: '.html' %}
+  {% assign parentPage = site.pages | where: 'version', targetVersion | where: 'url', parentUrl | first %}
+  {% assign pageUrlWithoutExt = page.url | split: '.html' | first %}
+  {% assign localPageUrlWithoutExt = pageUrlWithoutExt | replace_first: localBaseUrl, '' %}
+  {% assign sortedPages = site.pages | where: 'version', targetVersion | sort: 'displayOrder' %}
+  {% assign childPages = sortedPages | where: 'parent', localPageUrlWithoutExt %}
+  {% assign siblingPages = sortedPages | where: 'parent', page.parent %}
+
+  {% comment %}
+  <!-- Debug Output -->
+  <ul class="debug">
+    <li>Path: {{ page.path | jsonify }}</li>
+    <li>Local Base URL: {{ localBaseUrl | jsonify }}</li>
+    <li>URL: {{ page.url | jsonify }}</li>
+    <li>URL (no ext): {{ pageUrlWithoutExt | jsonify }}</li>
+    <li>Local URL (no ext): {{ localPageUrlWithoutExt | jsonify }}</li>
+    <li>Parent URL: {{ parentUrl | jsonify }}</li>
+    <li>Version: {{ page.version | jsonify }}</li>
+    <li>Category: {{ page.category | jsonify }}</li>
+    <li>Children: {{ childPages | map: 'url' | jsonify }}</li>
+    <li>Siblings: {{ siblingPages | map: 'url' | jsonify }}</li>
+    <li>Parent: {% if parentPage %} {{ parentPage.url | jsonify }} {% else %} null {% endif %}</li>
+    <li>CategoryDescriptions: {{ site.categoryDescriptions | map: 'id' | jsonify }}</li>
+  </ul>
+  {% endcomment %}
+
+  <div class="sidebarcontent">
+    <!-- Display editing buttons -->
+    {% if childPages.size > 0 or page.notoc %}
+      <a id="editButton" class="button" href="{{ site.github.repository_url }}">Add Page</a>
+    {% else %}
+      <a id="editButton" class="button" href="{{ site.github.repository_url }}/edit/{{ site.github.source.branch }}/{{ page.path }}">Edit Page</a>
+    {% endif %}
+
+    <!-- If we are displaying anything but the top level page overview, display a back button -->
+    {% if parentPage or childPages.size > 0 or page.notoc != true %}
+      {% if parentPage %}
+        <a class="contentLink" href="{{ site.baseurl }}{{ parentPage.url }}#mainContent">&lt; Go Back</a>
+        <a class="pageLink" href="{{ site.baseurl }}{{ parentPage.url }}">&lt; Go Back</a>
+      {% else %}
+        <!-- Use the Home page of the current version -->
+        <a href="{{ site.baseurl }}{{ localBaseUrl }}Home.html">&lt; Go Back</a>
+      {% endif %}
+    {% endif %}
+
+    <!-- If we have child pages, display an overview of them -->
+    {% if childPages.size > 0 %}
+      <h4>{{ page.title }}</h4>
+      <ul>
+        {% for pageItem in childPages %}
+          <li>
+            <a class="contentLink" href="{{ site.baseurl }}{{ pageItem.url }}#mainContent">{{ pageItem.title }}</a>
+            <a class="pageLink" href="{{ site.baseurl }}{{ pageItem.url }}">{{ pageItem.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    <!-- If we have a page-local table of contents, display that one -->
+    {% elsif page.notoc != true %}
+      <h4>{{ page.title }}</h4>
+      {% include toc.html html=content h_max=3 sanitize=true %}
+    <!-- If we have sibling pages, display links to them -->
+    {% elsif page.parent != null and siblingPages.size > 0 %}
+      <h4>{{ parentPage.title }}</h4>
+      <ul>
+        {% for pageItem in siblingPages %}
+          <li>
+            <a class="contentLink" href="{{ site.baseurl }}{{ pageItem.url }}#mainContent">{{ pageItem.title }}</a>
+            <a class="pageLink" href="{{ site.baseurl }}{{ pageItem.url }}">{{ pageItem.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    <!-- Otherwise, display top-level manual pages grouped by category. -->
+    {% else %}
+      {% assign topLevelPages = sortedPages | where: 'version', targetVersion | where_exp: 'item', 'item.category != nil' | where_exp: 'item', 'item.parent == nil' %}
+      {% for category in site.categoryDescriptions %}
+        {% assign categoryPages = topLevelPages | where: 'category', category.id %}
+        {% if categoryPages.size > 0 %}
+          <h4>{{ category.title }}</h4>
+          <ul>
+            {% for pageItem in categoryPages %}
+              <li>
+                <a class="contentLink" href="{{ site.baseurl }}{{ pageItem.url }}#mainContent">{{ pageItem.title }}</a>
+                <a class="pageLink" href="{{ site.baseurl }}{{ pageItem.url }}">{{ pageItem.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <!-- Display available versions of this page -->
+    {% assign versionPath = page.version | prepend: '/' %}
+    {% assign urlAfterVersion = page.url | split: versionPath | last %}
+    {% assign urlAfterVersion = urlAfterVersion | slice: 1, urlAfterVersion.size %}
+    {% assign urlAfterVersionWithoutExt = urlAfterVersion | split: '.html' | first %}
+    {% assign versionPages = "" | split: "" %}
+    <!-- Iterate over all pages to find the current one in different versions -->
+    {% for pageItem in site.pages %}
+      {% assign itemVersionPath = pageItem.version | prepend: '/' %}
+      {% assign itemUrlAfterVersion = pageItem.url | split: itemVersionPath | last %}
+      {% assign itemUrlAfterVersion = itemUrlAfterVersion | slice: 1, itemUrlAfterVersion.size %}
+      {% assign itemUrlAfterVersionWithoutExt = itemUrlAfterVersion | split: '.html' | first %}
+      {% comment %} <!-- Match pages with an equal URL, except the version part --> {% endcomment %}
+      {% if itemUrlAfterVersionWithoutExt == urlAfterVersionWithoutExt %}
+        {% assign versionPages = versionPages | push: pageItem %}
+      {% comment %} <!-- Match (future) pages that formerly had the current pages URL --> {% endcomment %}
+      {% elsif pageItem.formerPaths contains urlAfterVersionWithoutExt %}
+        {% assign versionPages = versionPages | push: pageItem %}
+      {% comment %} <!-- Match (past) pages which have an URL from the current pages former path list --> {% endcomment %}
+      {% elsif page.formerPaths contains itemUrlAfterVersionWithoutExt %}
+        {% assign versionPages = versionPages | push: pageItem %}
+      {% endif %}
+    {% endfor %}
+    <!-- Display a full list of available page versions -->
+    {% assign sortedVersionPages = versionPages | sort:"version" %}
+    <div class="versionList">
+      <h4>Versions:</h4>
+      <ul>
+        {% for pageItem in sortedVersionPages %}
+          {% if pageItem.version == targetVersion %}
+            <li id="activeVersion">{{ pageItem.version }}</li>
+          {% else %}
+            <li><a href="{{ site.baseurl }}{{ pageItem.url }}">{{ pageItem.version }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>
