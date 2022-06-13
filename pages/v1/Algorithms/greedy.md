@@ -70,6 +70,7 @@ References:
 - Space Complexity: *O(1)*
 
 > Java
+
 ```java
 public static int maxSubArray(int arr[]){
     int meh = 0;
