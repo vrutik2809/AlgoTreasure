@@ -6,11 +6,11 @@ version: "v1"
 notoc: false
 ---
 
-# Three sum
+## Three sum
 
-### Brute Force
-- Time Complexity: O(N^3)
-- Space Complexity: O(k) ;k = the number of unique triplets with sum = 0 for the given array
+#### Brute Force
+- Time Complexity: *O(N^3)*
+- Space Complexity: *O(k) ;k = the number of unique triplets with sum = 0 for the given array*
 
 > Java
 
@@ -35,10 +35,9 @@ public List<List<Integer>> threeSum(int[] nums) {
     return ans;
 }
 ```
-
-### Greedy
-- Time Complexity: O(N^2)
-- Space Complexity: O(1)
+#### Greedy
+- Time Complexity: *O(N^2)*
+- Space Complexity: *O(1)*
 
 > Java
 
@@ -65,3 +64,21 @@ public List<List<Integer>> threeSum(int[] nums) {
 }
 ```
 References: 
+
+## Kadane's Algorithm
+- Time Complexity: *O(N)*
+- Space Complexity: *O(1)*
+
+> Java
+```java
+public static int maxSubArray(int arr[]){
+    int meh = 0;
+    int msf = Integer.MIN_VALUE;
+    for(int v:arr){
+        meh += v;
+        meh = Math.max(meh, v);
+        msf = Math.max(msf,meh);
+    }
+    return msf;
+}
+```
