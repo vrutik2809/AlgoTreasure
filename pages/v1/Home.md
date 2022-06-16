@@ -6,4 +6,4 @@ version: "v1"
 notoc: true
 ---
 
-Welcome to the AlgoTreasure! It's a Treasure where you can find various **Data Structures and Algorithms** implemented in various approaches in different languages.
+Welcome to the AlgoTreasure! It's a Treasure where one can find various **Data Structures and Algorithms** implemented in various approaches in different languages.

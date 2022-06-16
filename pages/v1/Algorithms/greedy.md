@@ -83,3 +83,43 @@ public static int maxSubArray(int arr[]){
     return msf;
 }
 ```
+
+## Sub-sequence
+Check whether `str1` is subsequence of `str2` or not
+#### Using Loop
+- Time Complexity: *O(str2.length)*
+- Space Complexity: *O(1)*
+
+> Java
+
+```java
+public static boolean isSubsequence(String str1,String str2){
+    int n = str1.length(), m = str2.length();
+    int i = 0;
+    for(int j = 0;i < n && j < m;j++){
+        if(str1.charAt(i) == str2.charAt(j)) ++i;
+    }
+    return i == n;
+}
+```
+
+#### Using Recursion (uses stack memory)
+- Time Complexity: *O(n)*
+- Space Complexity: *O(1)*
+
+> Java
+
+```java
+public static boolean isSubsequence(String str1, String str2,int m, int n){
+    if (m == 0)
+        return true;
+    if (n == 0)
+        return false;
+
+    if (str1.charAt(m - 1) == str2.charAt(n - 1))
+        return isSubsequence(str1, str2, m - 1, n - 1);
+
+    return isSubsequence(str1, str2, m, n - 1);
+}
+```
+References: [Check-for-Subsequence](https://www.geeksforgeeks.org/given-two-strings-find-first-string-subsequence-second/)

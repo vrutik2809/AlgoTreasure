@@ -4,6 +4,7 @@ title: "AlgoTreasure"
 description: "A Treasure for various Data Structures and Algorithms"
 google_analytics: UA-39997821-2
 repository: 'vrutik2809/AlgoTreasure'
+markdown: GFM
 
 baseurl: '/AlgoTreasure'
 url: 'https://vrutik2809.github.io/AlgoTreasure/'
