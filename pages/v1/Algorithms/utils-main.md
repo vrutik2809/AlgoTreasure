@@ -7,5 +7,5 @@ notoc: false
 ---
 
 List of different utility algorithms
-- [Helper](./utils/helper.md)
 - [Calculate](./utils/calculate.md)
+- [Helper](./utils/helper.md)
