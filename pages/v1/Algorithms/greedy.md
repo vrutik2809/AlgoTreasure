@@ -73,14 +73,14 @@ References:
 
 ```java
 public static int maxSubArray(int arr[]){
-    int meh = 0;
-    int msf = Integer.MIN_VALUE;
-    for(int v:arr){
-        meh += v;
-        meh = Math.max(meh, v);
-        msf = Math.max(msf,meh);
+    int ans = Integer.MIN_VALUE;
+    int sum = 0;
+    for (int v : arr) {
+        sum += v;
+        ans = Math.max(ans, sum);
+        if(sum < 0) sum = 0;
     }
-    return msf;
+    return ans;
 }
 ```
 
