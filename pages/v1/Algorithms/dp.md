@@ -189,9 +189,8 @@ public static int lis(int arr[]){
 class Solution 
 { 
     private static int helper(int wt[],int val[],int i,int w){
-        if(i == 0){
-            if(w - wt[i] >= 0) return val[i];
-            else return 0;
+        if(i == -1){
+            return 0;
         }
         if(w - wt[i] >= 0){
             return Math.max(helper(wt,val,i - 1,w),val[i] + helper(wt,val,i - 1,w - wt[i]));
@@ -220,9 +219,8 @@ class Solution
 class Solution 
 { 
     private static int helper(int wt[],int val[],int i,int w,int dp[][]){
-        if(i == 0){
-            if(w - wt[i] >= 0) return dp[i][w] = val[i];
-            else return dp[i][w] = 0;
+        if(i == -1){
+            return 0;
         }
         if(dp[i][w] != 0) return dp[i][w];
         if(w - wt[i] >= 0){
