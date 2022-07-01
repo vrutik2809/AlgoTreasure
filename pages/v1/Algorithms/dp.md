@@ -211,8 +211,8 @@ class Solution
 <details>
 <Summary>Using DP-Memoization</Summary>
 
-- Time Complexity: *O(n<sup>2</sup>)*
-- Space Complexity: *O(n)*
+- Time Complexity: *O(n * W)*
+- Space Complexity: *O(n * W)*
 
 > Java
 
@@ -244,8 +244,8 @@ class Solution
 <details open>
 <Summary>Using DP-Tabulation</Summary>
 
-- Time Complexity: *O(n<sup>2</sup>)*
-- Space Complexity: *O(n)*
+- Time Complexity: *O(n * W)*
+- Space Complexity: *O(n * W)*
 
 > Java
 
