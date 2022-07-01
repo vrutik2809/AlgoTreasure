@@ -172,3 +172,95 @@ public static int lis(int arr[]){
 }
 ```
 </details>
+
+
+
+## 0/1 knapsack
+
+<details>
+<Summary>Using Recursion</Summary>
+
+- Time Complexity: *O(2<sup>n</sup>)*
+- Space Complexity: *O(1)*
+
+> Java
+
+```java
+class Solution 
+{ 
+    private static int helper(int wt[],int val[],int i,int w){
+        if(i == 0){
+            if(w - wt[i] >= 0) return val[i];
+            else return 0;
+        }
+        if(w - wt[i] >= 0){
+            return Math.max(helper(wt,val,i - 1,w),val[i] + helper(wt,val,i - 1,w - wt[i]));
+        }
+        else{
+            return helper(wt,val,i - 1,w);
+        }
+    } 
+    public static int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        return helper(wt,val,wt.length - 1,W);
+    } 
+}
+```
+</details>
+
+<details>
+<Summary>Using DP-Memoization</Summary>
+
+- Time Complexity: *O(n<sup>2</sup>)*
+- Space Complexity: *O(n)*
+
+> Java
+
+```java
+class Solution 
+{ 
+    private static int helper(int wt[],int val[],int i,int w,int dp[][]){
+        if(i == 0){
+            if(w - wt[i] >= 0) return dp[i][w] = val[i];
+            else return dp[i][w] = 0;
+        }
+        if(dp[i][w] != 0) return dp[i][w];
+        if(w - wt[i] >= 0){
+            return dp[i][w] = Math.max(helper(wt,val,i - 1,w,dp),val[i] + helper(wt,val,i - 1,w - wt[i],dp));
+        }
+        else{
+            return dp[i][w] = helper(wt,val,i - 1,w,dp);
+        }
+    } 
+    public static int knapSack(int W, int wt[], int val[]) 
+    { 
+        int dp[][] = new int[wt.length + 1][W + 1];
+        return helper(wt,val,wt.length - 1,W,dp);
+    } 
+}
+```
+</details>
+
+<details open>
+<Summary>Using DP-Tabulation</Summary>
+
+- Time Complexity: *O(n<sup>2</sup>)*
+- Space Complexity: *O(n)*
+
+> Java
+
+```java
+public static int knapSack(int wt[], int val[], int W) {
+    int dp[][] = new int[wt.length + 1][W + 1];
+    for (int i = 1; i <= wt.length; i++) {
+        for (int w = 1; w <= W; w++) {
+            if (w - wt[i - 1] < 0)
+                dp[i][w] = dp[i - 1][w];
+            else
+                dp[i][w] = Math.max(dp[i - 1][w], val[i - 1] + dp[i - 1][w - wt[i - 1]]);
+        }
+    }
+    return dp[wt.length][W];
+}
+```
+</details>
