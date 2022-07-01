@@ -109,7 +109,7 @@ public class Solution
         return meh;
     }
     public static int lis(int arr[]){
-        ans = Integer.MIN_VALUE;
+        ans = 1;
         helper(arr,arr.length - 1);
         return ans;
     }
@@ -141,7 +141,7 @@ public class Solution
     public static int lis(int arr[]){
         int dp[] = new int[arr.length];
         Arrays.fill(dp,1);
-        ans = Integer.MIN_VALUE;
+        ans = 1;
         helper(arr,arr.length - 1,dp);
         return ans;
     }
@@ -161,7 +161,7 @@ public class Solution
 public static int lis(int arr[]){
     int dp[] = new int[arr.length];
     Arrays.fill(dp,1);
-    int ans = Integer.MIN_VALUE;
+    int ans = 1;
     for(int i = 1;i < arr.length;i++){
         for(int j = 0;j < i;j++){
             if(arr[i] > arr[j] && dp[j] >= dp[i]) dp[i] = 1 + dp[j];
