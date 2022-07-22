@@ -9,17 +9,17 @@ notoc: true
 ## SegmentTree
 
 ```java
-class SegmentTree {
+public class SegmentTree {
     private long seg[];
     private int n;
 
-    public SegmentTree(long arr[]) {
+    public SegmentTree(int arr[]) {
         this.n = arr.length;
         seg = new long[4 * n];
         build(0, n - 1, 0, arr);
     }
 
-    private void build(int start, int end, int node, long arr[]) {
+    private void build(int start, int end, int node, int arr[]) {
         if (start == end) {
             seg[node] = arr[start];
             return;
@@ -27,12 +27,12 @@ class SegmentTree {
         int mid = (start + end) / 2;
         build(start, mid, 2 * node + 1, arr);
         build(mid + 1, end, 2 * node + 2, arr);
-        seg[node] = seg[2 * node + 1] + seg[2 * node + 2];
+        seg[node] = seg[2 * node + 1] + seg[2 * node + 2]; // depends on the operation
     }
 
     private long query(int start, int end, int l, int r, int node) {
         if (start > r || end < l) {
-            return 0;
+            return 0; // depends on the operation
         }
 
         if (start >= l && end <= r) {
@@ -42,7 +42,7 @@ class SegmentTree {
         int mid = (start + end) / 2;
         long left_ans = query(start, mid, l, r, 2 * node + 1);
         long right_ans = query(mid + 1, end, l, r, 2 * node + 2);
-        return left_ans + right_ans;
+        return left_ans + right_ans; // depends on the operation
     }
 
     public long query(int l, int r) {
@@ -60,7 +60,7 @@ class SegmentTree {
         else
             update(mid + 1, end, 2 * node + 2, idx, val);
 
-        seg[node] = seg[2 * node + 1] + seg[2 * node + 2];
+        seg[node] = seg[2 * node + 1] + seg[2 * node + 2]; // depends on the operation
 
     }
 
