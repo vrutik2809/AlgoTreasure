@@ -6,8 +6,6 @@ version: "v1"
 notoc: true
 ---
 
-## Trie
-
 ```java
 public class Trie {
     private Trie hash[];

@@ -1,5 +1,5 @@
 ---
-title: "SegmentTree"
+title: "SegmentTree with Lazy Propagation"
 category: "data-structures"
 displayOrder: -100
 version: "v1"
@@ -7,13 +7,15 @@ notoc: true
 ---
 
 ```java
-public class SegmentTree {
+class SegmentTree2 {
     private long seg[];
     private int n;
+    private long lazy[];
 
-    public SegmentTree(int arr[]) {
+    public SegmentTree2(int arr[]) {
         this.n = arr.length;
         seg = new long[4 * n];
+        lazy = new long[4 * n];
         build(0, n - 1, 0, arr);
     }
 
@@ -33,6 +35,16 @@ public class SegmentTree {
             return 0; // depends on the operation
         }
 
+        // lazy propagation
+        if (lazy[node] != 0) {
+            seg[node] += lazy[node] * (end - start + 1);
+            if (start != end) {
+                lazy[2 * node + 1] += lazy[node];
+                lazy[2 * node + 2] += lazy[node];
+            }
+            lazy[node] = 0;
+        }
+
         if (start >= l && end <= r) {
             return seg[node];
         }
@@ -47,23 +59,30 @@ public class SegmentTree {
         return query(0, n - 1, l, r, 0);
     }
 
-    private void update(int start, int end, int node, int idx, long val) {
-        if (start == end) {
-            seg[node] = val;
+    private void update(int start, int end, int node, int l, int r, long val) {
+        if (start > r || end < l) {
+            return;
+        }
+
+        // lazy propagation
+        if (start >= l && end <= r) {
+            seg[node] += val * (end - start + 1);
+            if (start != end) {
+                lazy[2 * node + 1] += val;
+                lazy[2 * node + 2] += val;
+            }
             return;
         }
         int mid = (start + end) / 2;
-        if (idx <= mid)
-            update(start, mid, 2 * node + 1, idx, val);
-        else
-            update(mid + 1, end, 2 * node + 2, idx, val);
+        update(start, mid, 2 * node + 1, l, r, val);
+        update(mid + 1, end, 2 * node + 2, l, r, val);
 
         seg[node] = seg[2 * node + 1] + seg[2 * node + 2]; // depends on the operation
 
     }
 
-    public void update(int idx, long val) {
-        update(0, n - 1, 0, idx, val);
+    public void update(int l, int r, long val) {
+        update(0, n - 1, 0, l, r, val);
     }
 }
 ```
