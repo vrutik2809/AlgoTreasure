@@ -10,7 +10,7 @@ notoc: true
 
 ```java
 public class FenwickTree {
-    long fn[];
+    private long fn[];
 
     public FenwickTree(int n) {
         fn = new long[n + 1];
